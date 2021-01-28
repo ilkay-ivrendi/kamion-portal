@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Navigation from "./components/Navigation/Navigation";
+import { Switch, Route, Redirect } from "react-router-dom";
+import HomePage from "./pages/HomePage/HomePage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import UserDashboardPage from "./pages/UserDashboardPage/UserDashboardPage";
+import AuthService from "./services/AuthService";
+import EditCarrier from "./pages/EditCarrier/EditCarrier";
 
-function App() {
+function App(props) {
+  const user = AuthService.getCurrentUser();
+  const [isAuthenticated, setAuthentication] = useState(user ? true : false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navigation isLoggedIn={isAuthenticated} />
+
+      <Switch>
+        <Route exact path={["/", "/home"]} component={HomePage} />
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/dashboard" component={UserDashboardPage} />
+        <Route path="/carrier/:id" children={EditCarrier} />
+      </Switch>
     </div>
   );
 }
