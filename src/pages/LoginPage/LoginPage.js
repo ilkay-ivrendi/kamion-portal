@@ -18,7 +18,7 @@ const layout = {
 const tailLayout = {
   wrapperCol: {
     xs: {
-      span: 12,
+      span: 10,
       offset: 0,
     },
     sm: {
